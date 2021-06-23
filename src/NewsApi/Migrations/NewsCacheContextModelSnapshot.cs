@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YNews.DataAccess.Db;
 
-namespace NewsApi.Migrations
+namespace YNews.NewsApi.Migrations
 {
     [DbContext(typeof(NewsCacheContext))]
     partial class NewsCacheContextModelSnapshot : ModelSnapshot

@@ -10,7 +10,7 @@ using YNews.DataAccess.Db;
 using YNews.DataAccess.Repository;
 using YNewsApi.Entities.Repository;
 
-namespace NewsApi
+namespace YNews.NewsApi
 {
     public class Startup
     {

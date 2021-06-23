@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YNews.DataAccess.Db;
 
-namespace NewsApi.Migrations
+namespace YNews.NewsApi.Migrations
 {
     [DbContext(typeof(NewsCacheContext))]
     [Migration("20210623034819_Initial")]

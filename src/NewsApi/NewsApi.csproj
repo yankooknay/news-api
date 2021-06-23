@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>YNews.NewsApi</AssemblyName>
+    <RootNamespace>YNews.NewsApi</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

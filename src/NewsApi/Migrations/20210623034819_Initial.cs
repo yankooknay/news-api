@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace NewsApi.Migrations
+namespace YNews.NewsApi.Migrations
 {
     public partial class Initial : Migration
     {
