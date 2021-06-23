@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using YNews.DataAccess.Db;
+using YNews.DataAccess.Repository;
+using YNewsApi.Entities.Repository;
 
 namespace NewsApi
 {
@@ -26,7 +28,7 @@ namespace NewsApi
                 options => options.UseSqlServer(Configuration.GetConnectionString("NewsCache"),
                 b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name))
             );
-            services.AddHttpClient();
+            services.AddTransient<INewsItemRepository, NewsItemRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

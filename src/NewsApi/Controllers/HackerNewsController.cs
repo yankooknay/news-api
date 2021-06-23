@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using YNewsApi.Entities.Entity;
+using YNewsApi.Entities.Repository;
 
 namespace NewsApi.Controllers
 {
@@ -11,17 +10,18 @@ namespace NewsApi.Controllers
     [Route("[controller]")]
     public class HackerNewsController : ControllerBase
     {
-        readonly ILogger<HackerNewsController> _logger;
+        readonly INewsItemRepository newsItemRepository;
 
-        public HackerNewsController(ILogger<HackerNewsController> logger)
+        public HackerNewsController(INewsItemRepository newsItemRepository)
         {
-            _logger = logger;
+            this.newsItemRepository = newsItemRepository;
         }
 
         [HttpGet]
-        public IEnumerable<string> Get(int? pageSize, int? page, string filter)
+        public IEnumerable<NewsItem> Get(string filter, int pageSize = 10, int page = 1)
         {
-            return null;
+            filter = string.IsNullOrWhiteSpace(filter) ? "" : " " + filter.Trim();
+            return newsItemRepository.GetAll().Where(e => e.Title.Contains(filter)).OrderByDescending(e => e.Time).Skip(pageSize * (page - 1)).Take(pageSize);
         }
     }
 }
