@@ -14,6 +14,8 @@ namespace YNews.NewsApi
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,6 +31,16 @@ namespace YNews.NewsApi
                 b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name))
             );
             services.AddTransient<INewsItemRepository, NewsItemRepository>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins(Configuration.GetValue<string>("AllowedHosts"));
+                                  });
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -52,6 +64,7 @@ namespace YNews.NewsApi
             }
 
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

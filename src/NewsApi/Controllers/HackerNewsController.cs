@@ -22,8 +22,21 @@ namespace YNews.NewsApi.Controllers
         [HttpGet]
         public async Task<List<NewsItem>> Get(string filter, int pageSize = 10, int page = 1)
         {
-            filter = string.IsNullOrWhiteSpace(filter) ? "" : " " + filter.Trim();
-            return await newsItemRepository.GetAll().Where(e => e.Title.Contains(filter)).OrderByDescending(e => e.Time).Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+            string filterMiddleSentence = string.IsNullOrWhiteSpace(filter) ? "" : " " + filter.Trim();
+            return await newsItemRepository.GetAll()
+                .Where(e => e.Title.Contains(filter) || e.Title.Contains(filterMiddleSentence))
+                .OrderByDescending(e => e.Time)
+                .Skip(pageSize * (page - 1))
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("total")]
+        public async Task<int> Total(string filter)
+        {
+            string filterMiddleSentence = string.IsNullOrWhiteSpace(filter) ? "" : " " + filter.Trim();
+            return await newsItemRepository.GetAll().Where(e => e.Title.Contains(filter) || e.Title.Contains(filterMiddleSentence)).CountAsync();
         }
     }
 }
