@@ -1,6 +1,6 @@
 # Hacker News API
 
-This project has 2 apps one Web API and one Windows Service. And the process to cache the Hacker News in a separate library.
+This project has 2 apps, one Web API and one Windows Service. And the process to cache the Hacker News in a separate library.
 
 The caching mechanism can also be accomplished using a cloud caching service (Azure etc.)
 
