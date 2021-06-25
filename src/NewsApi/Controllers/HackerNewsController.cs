@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using YNewsApi.Entities.Entity;
 using YNewsApi.Entities.Repository;
@@ -22,9 +24,8 @@ namespace YNews.NewsApi.Controllers
         [HttpGet]
         public async Task<List<NewsItem>> Get(string filter, int pageSize = 10, int page = 1)
         {
-            string filterMiddleSentence = string.IsNullOrWhiteSpace(filter) ? "" : " " + filter.Trim();
             return await newsItemRepository.GetAll()
-                .Where(e => e.Title.Contains(filter) || e.Title.Contains(filterMiddleSentence))
+                .Where(BuildFilter(filter))
                 .OrderByDescending(e => e.Time)
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize)
@@ -35,8 +36,14 @@ namespace YNews.NewsApi.Controllers
         [Route("total")]
         public async Task<int> Total(string filter)
         {
-            string filterMiddleSentence = string.IsNullOrWhiteSpace(filter) ? "" : " " + filter.Trim();
-            return await newsItemRepository.GetAll().Where(e => e.Title.Contains(filter) || e.Title.Contains(filterMiddleSentence)).CountAsync();
+            return await newsItemRepository.GetAll().Where(BuildFilter(filter)).CountAsync();
+        }
+
+        Expression<Func<NewsItem, bool>> BuildFilter(string filter)
+        {
+            filter = filter == null ? "" : filter.Trim();
+            string filterMiddleSentence = filter == "" ? "" : " " + filter;
+            return e => e.Title.StartsWith(filter) || e.Title.Contains(filterMiddleSentence);
         }
     }
 }
